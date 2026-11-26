@@ -1,0 +1,28 @@
+# Configuração de hospedagem no Netlify (gratuito).
+# O Netlify roda `npm run build` sozinho a cada atualização do código.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# O app é uma página única: qualquer endereço volta para o index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# O service worker e o manifest nunca ficam presos no cache,
+# para o celular pegar versões novas do app.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "no-cache"
